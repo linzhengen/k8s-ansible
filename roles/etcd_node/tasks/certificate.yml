@@ -1,0 +1,10 @@
+---
+- name: create `/etc/etcd/ssl` directory
+  file:
+    path: /etc/etcd/ssl
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - etcd

@@ -1,0 +1,27 @@
+---
+- name: copy admin-csr.json to `/etc/kubernetes/pki`
+  template:
+    src: admin-csr.json
+    dest: /etc/kubernetes/pki/admin-csr.json
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_admin_certificates
+
+- name: create admin certificate
+  shell: |
+    cfssl gencert \
+      -ca=ca.pem \
+      -ca-key=ca-key.pem \
+      -config=ca-config.json \
+      -profile=kubernetes \
+      admin-csr.json | cfssljson -bare admin
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_admin_certificates

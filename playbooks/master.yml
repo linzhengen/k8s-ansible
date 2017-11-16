@@ -1,0 +1,10 @@
+---
+- hosts: master
+  become: yes
+  become_method: sudo
+  environment:
+    PATH: "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin"
+  roles:
+    - cfssl
+    - etcd_master
+    - k8s_master

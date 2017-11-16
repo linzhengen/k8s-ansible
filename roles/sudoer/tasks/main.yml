@@ -1,0 +1,34 @@
+---
+- name: install sudo
+  yum: name=sudo state=present
+
+- name: create sudoers.d directory
+  file:
+    path: /etc/sudoers.d
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: set includedir in sudoers
+  lineinfile:
+    dest: /etc/sudoers
+    line: "#includedir /etc/sudoers.d"
+    state: present
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: create sudoers
+  template:
+    src: sudoers.d.j2
+    dest: "/etc/sudoers.d/{{ sudoers_filename }}"
+    mode: 0440
+    owner: root
+    group: root
+    validate: "/usr/sbin/visudo -cf %s"
+  when: not sudoers_remove
+
+- name: remove sudoers
+  file:
+    path: "/etc/sudoers.d/{{ sudoers_filename }}"
+    state: absent
+  when: sudoers_remove

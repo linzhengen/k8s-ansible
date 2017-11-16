@@ -1,0 +1,53 @@
+---
+- name: admin set-cluster
+  shell: |
+    kubectl config set-cluster kubernetes \
+        --certificate-authority=ca.pem \
+        --embed-certs=true \
+        --server={{ kube_apiserver }} \
+        --kubeconfig=../admin.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_admin_conf
+
+- name: admin set-credentials
+  shell: |
+    kubectl config set-credentials kubernetes-admin \
+        --client-certificate=admin.pem \
+        --client-key=admin-key.pem \
+        --embed-certs=true \
+        --kubeconfig=../admin.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_admin_conf
+
+- name: admin set-context
+  shell: |
+    kubectl config set-context kubernetes-admin@kubernetes \
+        --cluster=kubernetes \
+        --user=kubernetes-admin \
+        --kubeconfig=../admin.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_admin_conf
+
+- name: admin set default context
+  shell: |
+    kubectl config use-context kubernetes-admin@kubernetes \
+        --kubeconfig=../admin.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_admin_conf
+

@@ -1,0 +1,29 @@
+---
+- name: download etcd and copy to bin directory
+  get_url:
+    url: "{{ etcd_url }}/{{ etcd_version }}/{{ base_file_path }}.tar.gz"
+    dest: "/tmp/{{ base_file_path }}.tar.gz"
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - etcd
+    - etcd_install
+
+- name: unarchive etcd.tar.gz
+  unarchive:
+    src: "/tmp/{{ base_file_path }}.tar.gz"
+    dest: "/tmp"
+    owner: root
+    group: root
+    mode: 0751
+    remote_src: yes
+  tags:
+    - etcd
+    - etcd_install
+
+- name: move to system path
+  shell: "mv /tmp/{{ base_file_path }}/etcd* /usr/local/bin/ && rm -rf mv /tmp/{{ base_file_path }}"
+  tags:
+    - etcd
+    - etcd_install

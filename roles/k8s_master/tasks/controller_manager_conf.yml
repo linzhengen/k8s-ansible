@@ -1,0 +1,52 @@
+---
+- name: controller-manager set-cluster
+  shell: |
+    kubectl config set-cluster kubernetes \
+      --certificate-authority=ca.pem \
+      --embed-certs=true \
+      --server={{ kube_apiserver }} \
+      --kubeconfig=../controller-manager.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_controller_manager_conf
+
+- name: controller-manager set-credentials
+  shell: |
+    kubectl config set-credentials system:kube-controller-manager \
+      --client-certificate=controller-manager.pem \
+      --client-key=controller-manager-key.pem \
+      --embed-certs=true \
+      --kubeconfig=../controller-manager.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_controller_manager_conf
+
+- name: controller-manager set-context
+  shell: |
+    kubectl config set-context system:kube-controller-manager@kubernetes \
+        --cluster=kubernetes \
+        --user=system:kube-controller-manager \
+        --kubeconfig=../controller-manager.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_controller_manager_conf
+
+- name: controller-manager set default context
+  shell: |
+    kubectl config use-context system:kube-controller-manager@kubernetes \
+        --kubeconfig=../controller-manager.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_controller_manager_conf

@@ -1,0 +1,60 @@
+---
+- name: create `/etc/etcd/ssl` directory
+  file:
+    path: /etc/etcd/ssl
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - etcd
+    - etcd_certificate
+
+- name: copy ca-config.json to `/etc/etcd/ssl`
+  template:
+    src: ca-config.json
+    dest: /etc/etcd/ssl/ca-config.json
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - etcd
+    - etcd_certificate
+
+- name: copy etcd-ca-csr.json to `/etc/etcd/ssl`
+  template:
+    src: etcd-ca-csr.json
+    dest: /etc/etcd/ssl/etcd-ca-csr.json
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - etcd
+    - etcd_certificate
+
+- name: etcd-csr.json to `/etc/etcd/ssl`
+  template:
+    src: etcd-csr.json
+    dest: /etc/etcd/ssl/etcd-csr.json
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - etcd
+    - etcd_certificate
+
+- name: cfssl gencert etcd ca files from json
+  shell: "cfssl gencert -initca etcd-ca-csr.json | cfssljson -bare etcd-ca"
+  args:
+    chdir: /etc/etcd/ssl
+  tags:
+    - etcd
+    - etcd_certificate
+
+- name: create kube-apiserver certificate
+  shell: "cfssl gencert -ca=etcd-ca.pem -ca-key=etcd-ca-key.pem -config=ca-config.json -profile=kubernetes etcd-csr.json | cfssljson -bare etcd"
+  args:
+    chdir: /etc/etcd/ssl
+  tags:
+    - etcd
+    - etcd_certificate

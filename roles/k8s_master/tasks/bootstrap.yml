@@ -1,0 +1,50 @@
+---
+- name: bootstrap set-cluster
+  shell: |
+    kubectl config set-cluster kubernetes \
+        --certificate-authority=ca.pem \
+        --embed-certs=true \
+        --server={{ kube_apiserver }} \
+        --kubeconfig=../bootstrap.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_bootstrap
+
+- name: bootstrap set-credentials
+  shell: |
+    kubectl config set-credentials kubelet-bootstrap \
+        --token={{ bootstrap_token }} \
+        --kubeconfig=../bootstrap.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_bootstrap
+
+- name: bootstrap set-context
+  shell: |
+    kubectl config set-context default \
+        --cluster=kubernetes \
+        --user=kubelet-bootstrap \
+       --kubeconfig=../bootstrap.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_bootstrap
+
+- name: bootstrap set default context
+  shell: |
+    kubectl config use-context default --kubeconfig=../bootstrap.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_bootstrap
+

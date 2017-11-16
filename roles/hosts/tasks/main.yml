@@ -1,0 +1,11 @@
+---
+- name: add nodes hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ item }}"
+    regexp: "{{ item }}"
+    state: present
+  with_items:
+    - 172.16.35.10 node1
+    - 172.16.35.11 node2
+    - 172.16.35.12 master1

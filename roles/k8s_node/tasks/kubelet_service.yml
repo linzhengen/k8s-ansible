@@ -1,0 +1,57 @@
+---
+- name: create `/etc/systemd/system/kubelet.service.d` directory
+  file:
+    path: /etc/systemd/system/kubelet.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_node_install
+    - k8s_node_kubelet_service
+
+- name: copy kubelet.service to `/lib/systemd/system`
+  template:
+    src: kubelet.service
+    dest: /lib/systemd/system/kubelet.service
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_node_install
+    - k8s_node_kubelet_service
+
+- name: copy 10-kubelet.conf to `/etc/systemd/system/kubelet.service.d`
+  template:
+    src: 10-kubelet.conf
+    dest: /etc/systemd/system/kubelet.service.d/10-kubelet.conf
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_node_install
+    - k8s_node_kubelet_service
+
+- name: start kubelet
+  service:
+    name: kubelet
+    state: started
+    enabled: yes
+  tags:
+    - k8s
+    - k8s_node_install
+    - k8s_node_kubelet_service
+
+- name: restart kubelet
+  service:
+    name: kubelet
+    state: restarted
+  tags:
+    - k8s
+    - k8s_node_install
+    - k8s_node_kubelet_service
+    - k8s_node_kubelet_service_restart
+

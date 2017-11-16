@@ -1,0 +1,52 @@
+---
+- name: kubelet set-cluster
+  shell: |
+    kubectl config set-cluster kubernetes \
+      --certificate-authority=ca.pem \
+      --embed-certs=true \
+      --server={{ kube_apiserver }} \
+      --kubeconfig=../kubelet.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_kubelet_conf
+
+- name: kubelet set-credentials
+  shell: |
+    kubectl config set-credentials system:node:master1 \
+      --client-certificate=kubelet.pem \
+      --client-key=kubelet-key.pem \
+      --embed-certs=true \
+      --kubeconfig=../kubelet.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_kubelet_conf
+
+- name: kubelet set-context
+  shell: |
+    kubectl config set-context system:node:master1@kubernetes \
+      --cluster=kubernetes \
+      --user=system:node:master1 \
+      --kubeconfig=../kubelet.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_kubelet_conf
+
+- name: kubelet set default context
+  shell: |
+    kubectl config use-context system:node:master1@kubernetes \
+      --kubeconfig=../kubelet.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_kubelet_conf

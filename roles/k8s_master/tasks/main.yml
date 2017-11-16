@@ -1,0 +1,19 @@
+---
+- import_tasks: install.yml
+- import_tasks: certificates.yml
+- import_tasks: bootstrap_token.yml
+- import_tasks: bootstrap.yml
+- import_tasks: admin_certificates.yml
+- import_tasks: admin_conf.yml
+- import_tasks: controller_manager_certificates.yml
+- import_tasks: controller_manager_conf.yml
+- import_tasks: scheduler_certificates.yml
+- import_tasks: scheduler_conf.yml
+- import_tasks: kubelet_certificates.yml
+- import_tasks: kubelet_conf.yml
+- import_tasks: service_account_key.yml
+- import_tasks: manifests.yml
+- import_tasks: encryption.yml
+- import_tasks: audit_policy.yml
+- import_tasks: kubelet_service.yml
+- import_tasks: apiserver_to_kubelet_rbac.yml

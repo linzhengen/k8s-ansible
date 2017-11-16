@@ -1,0 +1,20 @@
+---
+- name: create etcd group
+  group:
+    name: etcd
+    state: present
+  tags:
+    - etcd
+    - etcd_user
+
+- name: create etcd user
+  user:
+    name: etcd
+    comment: Etcd user
+    group: etcd
+    shell: /sbin/nologin
+    createhome: no
+    state: present
+  tags:
+    - etcd
+    - etcd_user

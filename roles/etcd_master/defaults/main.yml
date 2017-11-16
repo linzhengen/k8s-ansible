@@ -1,0 +1,4 @@
+---
+etcd_url: "https://github.com/coreos/etcd/releases/download"
+etcd_version: "v3.2.9"
+base_file_path: "etcd-v3.2.9-linux-amd64"

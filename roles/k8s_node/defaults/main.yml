@@ -1,0 +1,7 @@
+---
+kube_url: https://storage.googleapis.com/kubernetes-release/release/v1.8.2/bin/linux/amd64
+kube_apiserver: https://172.16.35.12:6443
+cni_url: https://github.com/containernetworking/plugins/releases/download
+cni_version: "v0.6.0"
+cni_base_file_path: "cni-plugins-amd64-v0.6.0"
+

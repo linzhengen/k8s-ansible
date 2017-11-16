@@ -1,0 +1,23 @@
+---
+- name: copy apiserver-to-kubelet-rbac.yml to `/etc/kubernetes`
+  template:
+    src: apiserver-to-kubelet-rbac.yml
+    dest: /etc/kubernetes/apiserver-to-kubelet-rbac.yml
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_apiserver_rbac
+
+- name: apiserver to kubelet rbac
+  shell: |
+    kubectl apply -f apiserver-to-kubelet-rbac.yml
+  args:
+    chdir: /etc/kubernetes
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_apiserver_rbac
+

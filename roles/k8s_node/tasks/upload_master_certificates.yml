@@ -1,0 +1,8 @@
+---
+- name: test
+  synchronize:
+    src: /etc/kubernetes/token.csv
+    dest: /tmp/token.csv
+  delegate_to: master1
+  tags:
+    - synchronize

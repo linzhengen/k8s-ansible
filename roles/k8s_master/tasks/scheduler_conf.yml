@@ -1,0 +1,52 @@
+---
+- name: scheduler set-cluster
+  shell: |
+    kubectl config set-cluster kubernetes \
+      --certificate-authority=ca.pem \
+      --embed-certs=true \
+      --server={{ kube_apiserver }} \
+      --kubeconfig=../scheduler.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_cscheduler_conf
+
+- name: scheduler set-credentials
+  shell: |
+    kubectl config set-credentials system:kube-scheduler \
+      --client-certificate=scheduler.pem \
+      --client-key=scheduler-key.pem \
+      --embed-certs=true \
+      --kubeconfig=../scheduler.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_cscheduler_conf
+
+- name: scheduler set-context
+  shell: |
+    kubectl config set-context system:kube-scheduler@kubernetes \
+      --cluster=kubernetes \
+      --user=system:kube-scheduler \
+      --kubeconfig=../scheduler.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_cscheduler_conf
+
+- name: scheduler set default context
+  shell: |
+    kubectl config use-context system:kube-scheduler@kubernetes \
+      --kubeconfig=../scheduler.conf
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_cscheduler_conf

@@ -1,0 +1,48 @@
+---
+- name: create `/etc/kubernetes/manifests`
+  file:
+    path: /etc/kubernetes/manifests
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_manifests
+
+- name: copy apiserver.yml to `/etc/kubernetes/manifests`
+  template:
+    src: apiserver.yml.j2
+    dest: /etc/kubernetes/manifests/apiserver.yml
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_manifests
+
+- name: copy manager.yml to `/etc/kubernetes/manifests`
+  template:
+    src: manager.yml.j2
+    dest: /etc/kubernetes/manifests/manager.yml
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_manifests
+
+- name: copy scheduler.yml to `/etc/kubernetes/manifests`
+  template:
+    src: scheduler.yml.j2
+    dest: /etc/kubernetes/manifests/scheduler.yml
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_manifests

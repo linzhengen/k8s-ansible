@@ -1,0 +1,12 @@
+---
+- name: copy audit-policy.yml to `/etc/kubernetes`
+  template:
+    src: audit-policy.yml
+    dest: /etc/kubernetes/audit-policy.yml
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_audit_policy

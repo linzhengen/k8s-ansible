@@ -1,0 +1,59 @@
+---
+- name: install kubelet from storage.googleapis.com
+  get_url:
+    url: "{{ kube_url }}/kubelet"
+    dest: "/usr/local/bin/kubelet"
+    owner: root
+    group: root
+    mode: 0751
+  tags:
+    - k8s
+    - k8s_install
+
+- name: install kubectl from storage.googleapis.com
+  get_url:
+    url: "{{ kube_url }}/kubectl"
+    dest: "/usr/local/bin/kubectl"
+    owner: root
+    group: root
+    mode: 0751
+  tags:
+    - k8s
+    - k8s_install
+
+- name: create `/opt/cni/bin`
+  file:
+    path: /opt/cni/bin
+    owner: root
+    group: root
+    mode: 0751
+    state: directory
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_cni
+
+- name: download containernetworking cni
+  get_url:
+    url: "{{ cni_url }}/{{ cni_version }}/{{ cni_base_file_path }}.tgz"
+    dest: "/tmp/{{ cni_base_file_path }}.tgz"
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_cni
+
+- name: unarchive cni.tgz
+  unarchive:
+    src: "/tmp/{{ cni_base_file_path }}.tgz"
+    dest: "/opt/cni/bin/"
+    owner: root
+    group: root
+    mode: 0751
+    remote_src: yes
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_cni

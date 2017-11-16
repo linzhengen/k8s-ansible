@@ -1,0 +1,20 @@
+---
+- name: download and install /usr/local/bin/cfssl
+  get_url:
+    url: "{{ cfssl_url }}/cfssl_linux-amd64"
+    dest: /usr/local/bin/cfssl
+    owner: root
+    group: root
+    mode: 0751
+  tags:
+    - cfssl
+
+- name: download and install /usr/local/bin/cfssljson
+  get_url:
+    url: "{{ cfssl_url }}/cfssljson_linux-amd64"
+    dest: /usr/local/bin/cfssljson
+    owner: root
+    group: root
+    mode: 0751
+  tags:
+    - cfssl

@@ -1,0 +1,36 @@
+---
+- name: check docker version
+  command: docker --version
+  register: docker_version
+  ignore_errors: yes
+  tags:
+    - docker
+
+- name: install docker
+  shell: 'curl -fsSL "https://get.docker.com/" | sh'
+  when: docker_version | failed
+  tags:
+    - docker
+
+- name: start docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  when: docker_version
+  tags:
+    - docker
+
+- name: update docker.service `ExecStartPost` config
+  lineinfile:
+    path: /lib/systemd/system/docker.service
+    line: "{{ item }}"
+    insertbefore: '^ExecStart=/usr/bin/dockerd'
+    regexp: "{{ item }}"
+    state: present
+  with_items:
+    - ExecStartPost=/sbin/iptables -I FORWARD -s 0.0.0.0/0 -j ACCEPT
+  notify: docker restart
+  tags:
+    - docker
+    - docker_service

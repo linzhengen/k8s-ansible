@@ -1,0 +1,4 @@
+---
+- import_tasks: install.yml
+- import_tasks: kubelet_service.yml
+- import_tasks: upload_master_certificates.yml

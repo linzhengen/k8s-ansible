@@ -1,0 +1,12 @@
+---
+- name: copy encryption.yml to `/etc/kubernetes`
+  template:
+    src: encryption.yml.j2
+    dest: /etc/kubernetes/encryption.yml
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_encryption

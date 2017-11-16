@@ -1,0 +1,124 @@
+---
+- name: create `/etc/kubernetes/pki`
+  file:
+    path: /etc/kubernetes/pki
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_certificates
+
+- name: copy ca-config.json to `/etc/kubernetes/pki`
+  template:
+    src: ca-config.json
+    dest: /etc/kubernetes/pki/ca-config.json
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_certificates
+
+- name: copy ca-csr.json to `/etc/kubernetes/pki`
+  template:
+    src: ca-csr.json
+    dest: /etc/kubernetes/pki/ca-csr.json
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_certificates
+
+- name: copy front-proxy-ca-csr.json to `/etc/kubernetes/pki`
+  template:
+    src: front-proxy-ca-csr.json
+    dest: /etc/kubernetes/pki/front-proxy-ca-csr.json
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_certificates
+
+- name: copy front-proxy-client-csr.json to `/etc/kubernetes/pki`
+  template:
+    src: front-proxy-client-csr.json
+    dest: /etc/kubernetes/pki/front-proxy-client-csr.json
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_certificates
+
+- name: copy apiserver-csr.json to `/etc/kubernetes/pki`
+  template:
+    src: apiserver-csr.json
+    dest: /etc/kubernetes/pki/apiserver-csr.json
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_certificates
+
+- name: cfssl gencert k8s ca files from json
+  shell: "cfssl gencert -initca ca-csr.json | cfssljson -bare ca"
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_certificates
+
+- name: create kube-apiserver certificate
+  shell: |
+    cfssl gencert \
+      -ca=ca.pem \
+      -ca-key=ca-key.pem \
+      -config=ca-config.json \
+      -hostname=10.96.0.1,172.16.35.12,127.0.0.1,kubernetes.default \
+      -profile=kubernetes \
+      apiserver-csr.json | cfssljson -bare apiserver
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_certificates
+
+- name: create front proxy certificate
+  shell: |
+    cfssl gencert \
+      -initca front-proxy-ca-csr.json | cfssljson -bare front-proxy-ca
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_certificates
+
+- name: create front-proxy-client certificate
+  shell: |
+    cfssl gencert \
+      -ca=front-proxy-ca.pem \
+      -ca-key=front-proxy-ca-key.pem \
+      -config=ca-config.json \
+      -profile=kubernetes \
+      front-proxy-client-csr.json | cfssljson -bare front-proxy-client
+  args:
+    chdir: /etc/kubernetes/pki
+  tags:
+    - k8s
+    - k8s_install
+    - k8s_certificates
+
