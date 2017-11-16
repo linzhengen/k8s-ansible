@@ -1,0 +1,7 @@
+---
+- name: kubeadm join
+  shell: |
+    kubeadm reset && kubeadm join \
+      --token {{ admission_token }} {{ master_ip }}:{{ master_port }}
+  tags:
+    - kubeadm_join

@@ -1,0 +1,5 @@
+---
+- name: set swap off
+  shell: swapoff -a
+  tags:
+    - swapoff

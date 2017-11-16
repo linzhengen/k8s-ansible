@@ -1,6 +1,6 @@
 ---
-- hosts: master1
+- hosts: node
   become: yes
   become_method: sudo
   roles:
-      - hosts
+    - kubeadm_node

@@ -1,0 +1,8 @@
+---
+- name: add flannel network add-on
+  shell: |
+    kubectl \
+    --kubeconfig /etc/kubernetes/admin.conf \
+    apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+  tags:
+    - flannel

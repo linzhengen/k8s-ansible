@@ -1,0 +1,40 @@
+---
+- name: kubeadm init
+  shell: |
+    kubeadm reset && kubeadm init \
+      --kubernetes-version=v1.8.3 \
+      --pod-network-cidr=10.244.0.0/16 \
+      --apiserver-advertise-address={{ master_ip }} \
+      --token={{ admission_token }}
+  tags:
+    - kubeadm_init
+
+- name: create $HOME/.kube/ directory
+  file:
+    path: "{{ ansible_env.HOME }}/.kube"
+    state: directory
+  tags:
+    - kubeadm_init
+
+- name: copy kube config to home directory
+  shell: |
+    cp -if /etc/kubernetes/admin.conf {{ ansible_env.HOME }}/.kube/config
+    chown $(id -u):$(id -g) {{ ansible_env.HOME }}/.kube/config
+  tags:
+    - kubeadm_init
+
+- name: start kubelet
+  service:
+    name: kubelet
+    state: started
+    enabled: yes
+  tags:
+    - kubeadm_init
+
+- name: restart kubelet
+  service:
+    name: kubelet
+    state: restarted
+  tags:
+    - kubeadm_init
+    - kube_restart

@@ -1,0 +1,3 @@
+---
+- import_tasks: kuberepo.yml
+- import_tasks: install.yml

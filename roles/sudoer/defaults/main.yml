@@ -1,0 +1,17 @@
+---
+sudoers_filename: "conf"
+
+# Who has sudo access - use %foo for groups
+sudoers:
+  - name: "vagrant"
+    users:
+      - "ALL"
+
+# Do users need to enter a password?
+sudoers_nopasswd: true
+
+# What users can sudoers impersonate?
+sudoers_users: ["ALL"]
+
+# Remove file from /etc/sudoers.d?
+sudoers_remove: false

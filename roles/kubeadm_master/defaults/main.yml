@@ -1,0 +1,4 @@
+---
+# can use `kubeadm token generate` to create token
+admission_token: c36104.464acb3b16497aaa
+master_ip: 172.16.35.12

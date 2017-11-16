@@ -1,0 +1,6 @@
+---
+# can use `kubeadm token generate` to create token
+admission_token: c36104.464acb3b16497aaa
+# kubeadm join --token c36104.464acb3b16497aaa 172.16.35.12:6443 --discovery-token-ca-cert-hash sha256:54deff03cc6c15321a4c28a370c928b7cc59776cbc093ee83855733f49d99881
+master_ip: 172.16.35.12
+master_port: 6443
