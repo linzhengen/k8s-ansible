@@ -1,0 +1,11 @@
+[master1]
+
+
+[node1]
+
+[node2]
+
+[all:children]
+master1
+node1
+node2
