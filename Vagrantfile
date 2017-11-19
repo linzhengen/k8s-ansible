@@ -30,6 +30,8 @@ Vagrant.configure("2") do |config|
         set_vbox(vb, override)
       end
       private_count += 1
+      
+      config.vm.provision "shell", inline: "sudo swapoff -a"
     end
   end
 end
