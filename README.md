@@ -1,8 +1,8 @@
 # k8s-ansible
 ### Prerequisite
 
-- Vagrant(1.7.0+)
-- VirtualBox(12.0.7+)
++ VirtualBox 5.1.30+ [Download](https://www.virtualbox.org/wiki/Downloads)
++ Vagrant 2.0.0+ [Download](https://www.vagrantup.com/downloads.html)
 
 ## 環境構築手順
 
