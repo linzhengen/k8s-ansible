@@ -1,6 +1,6 @@
 # k8s-ansible
 
-[![asciicast](https://asciinema.org/a/TLupl3SEE9wJWTvryy3XWCYLr.png)](https://asciinema.org/a/TLupl3SEE9wJWTvryy3XWCYLr?speed=2)
+<a href="https://asciinema.org/a/TLupl3SEE9wJWTvryy3XWCYLr?speed=5" target="_blank"><img src="https://asciinema.org/a/TLupl3SEE9wJWTvryy3XWCYLr.png" /></a>
 
 ### Prerequisite
 
