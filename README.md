@@ -1,5 +1,5 @@
 # k8s-ansible
-[![asciicast](https://asciinema.org/a/TLupl3SEE9wJWTvryy3XWCYLr.png)](https://asciinema.org/a/TLupl3SEE9wJWTvryy3XWCYLr)
+<a href="https://asciinema.org/a/TLupl3SEE9wJWTvryy3XWCYLr" target="_blank"><img src="https://asciinema.org/a/TLupl3SEE9wJWTvryy3XWCYLr.png" /></a>
 ### Prerequisite
 
 + VirtualBox 5.1.30+ [Download](https://www.virtualbox.org/wiki/Downloads)
