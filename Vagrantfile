@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
       end
       private_count += 1
       
-      config.vm.provision "shell", inline: "sudo swapoff -a"
+      config.vm.provision "shell", inline: "sudo swapoff -a", run: "always"
     end
   end
 end
